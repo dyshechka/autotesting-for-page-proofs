@@ -4,29 +4,41 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Login page</title>
+    <title>Страница аторизации</title>
 </h:head>
 
 <h:body>
     <form id="login_form" action="#{request.contextPath}/login" method="post">
-        <p>
-            <label for="j_username" class="login-form-tag">User</label>
-            <input type="text" id="j_username" name="username" class="ui-corner-all"/>
-        </p>
-        <p>
-            <label for="j_password" class="login-form-tag">Password</label>
-            <input type="password" id="j_password" name="password" class="ui-corner-all"/>
-        </p>
-        <p>
-            <button type="submit"
-                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                <span class="ui-button-text">Login</span>
-            </button>
-        </p>
+        <p:panelGrid>
+            <p:row>
+                <p:column>
+                    <label for="j_username" class="login-form-tag">Имя пользователя</label>
+                </p:column>
+                <p:column>
+                    <input type="text" id="j_username" name="username" class="ui-corner-all"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <label for="j_password" class="login-form-tag">Пароль</label>
+                </p:column>
+                <p:column>
+                    <input type="password" id="j_password" name="password" class="ui-corner-all"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                    <button type="submit"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                        <span class="ui-button-text">Войти</span>
+                    </button>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
     </form>
 </h:body>
-
 </html>

@@ -7,10 +7,6 @@
 
     <session-config>
         <session-timeout>30</session-timeout>
-        <cookie-config>
-            <http-only>true</http-only>
-            <secure>true</secure>
-        </cookie-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
@@ -55,6 +51,6 @@
     </context-param>
 
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
