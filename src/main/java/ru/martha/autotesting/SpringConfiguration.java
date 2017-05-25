@@ -25,6 +25,7 @@ import java.util.Properties;
 public class SpringConfiguration {
 
     private static final String ENTITIES_PACKAGE = "ru.martha.autotesting.entity";
+
     @Autowired
     private Environment environment;
 
@@ -33,8 +34,9 @@ public class SpringConfiguration {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "validate");
         jpaProperties.put("hibernate.show_sql", "true");
+        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         entityManagerFactory.setJpaProperties(jpaProperties);
         entityManagerFactory.setPackagesToScan(ENTITIES_PACKAGE);
         entityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
@@ -51,9 +53,9 @@ public class SpringConfiguration {
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(environment.getProperty("jdbc.url"));
-        dataSource.setUsername(environment.getProperty("jdbc.user"));
-        dataSource.setPassword(environment.getProperty("jdbc.password"));
+        dataSource.setJdbcUrl(environment.getProperty("flyway.url"));
+        dataSource.setUsername(environment.getProperty("flyway.user"));
+        dataSource.setPassword(environment.getProperty("flyway.password"));
         return dataSource;
     }
 }

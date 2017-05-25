@@ -10,11 +10,18 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Table(name = "ACTIONS")
 public class Action implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private long id;
+
+    @Column(name = "NAME", nullable = false)
+    private String name;
+
     @OneToMany
+    @JoinColumn(name = "ACTION_ID")
     private List<ActionArgument> arguments;
 }

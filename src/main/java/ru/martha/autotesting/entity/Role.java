@@ -5,22 +5,17 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "TEST_CASES")
-public class TestCase implements Serializable {
+@Table(name = "USER_ROLES")
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
-
-    @OneToMany
-    @JoinColumn(name = "TEST_CASE_ID")
-    private List<Action> actions;
 }

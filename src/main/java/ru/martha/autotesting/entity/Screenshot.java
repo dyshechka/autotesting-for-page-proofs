@@ -10,11 +10,20 @@ import java.util.Date;
 @Entity
 @Setter
 @Getter
+@Table(name = "SCREENSHOTS")
 public class Screenshot implements Serializable{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private  long id;
+
+    @Column(name = "NAME", nullable = false)
     private String name;
+
+    @Column(name = "STATUS")
     private boolean status;
+
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATION_DATE")
     private Date creationDate;
 }
