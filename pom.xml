@@ -5,12 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.martha</groupId>
-    <artifactId>initproject</artifactId>
+    <artifactId>autotesting-for-page-proofs</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring-framework-bom.version>4.3.6.RELEASE</spring-framework-bom.version>
+        <javax.faces.version>2.2.14</javax.faces.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <primefaces.version>6.0</primefaces.version>
+        <bootstrap-theme.version>1.0.10</bootstrap-theme.version>
+        <spring-security.version>4.2.2.RELEASE</spring-security.version>
+        <lombok.version>1.16.12</lombok.version>
+        <spring-data-jpa.version>1.10.6.RELEASE</spring-data-jpa.version>
+        <hibernate-entitymanager.version>5.2.6.Final</hibernate-entitymanager.version>
+        <hikaricp.version>2.5.1</hikaricp.version>
+        <mysql-connector-java.version>5.1.39</mysql-connector-java.version>
+        <selenium-java.version>3.4.0</selenium-java.version>
+        <ashot.version>1.5.4</ashot.version>
+
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <jetty-maven-plugin.vesrion>9.4.0.v20161208</jetty-maven-plugin.vesrion>
+        <flyway-maven-plugin.version>4.0.3</flyway-maven-plugin.version>
     </properties>
 
     <repositories>
@@ -26,7 +44,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version>4.3.6.RELEASE</version>
+                <version>${spring-framework-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -35,28 +53,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.faces</artifactId>
-            <version>2.2.14</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>${javax.faces.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.0</version>
+            <version>${primefaces.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>1.0.10</version>
+            <version>${bootstrap-theme.version}</version>
         </dependency>
 
         <dependency>
@@ -67,61 +85,55 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring-security.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>4.2.2.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
+            <version>${spring-security.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.10.6.RELEASE</version>
+            <version>${spring-data-jpa.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.2.6.Final</version>
+            <version>${hibernate-entitymanager.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>2.5.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.4</version>
+            <version>${hikaricp.version}</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.4.0</version>
+            <version>${selenium-java.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ru.yandex.qatools.ashot</groupId>
             <artifactId>ashot</artifactId>
-            <version>1.5.4</version>
+            <version>${ashot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
 
@@ -130,7 +142,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -139,7 +151,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.0.v20161208</version>
+                <version>${jetty-maven-plugin.vesrion}</version>
             </plugin>
         </plugins>
     </build>
@@ -152,7 +164,7 @@
                     <plugin>
                         <groupId>org.flywaydb</groupId>
                         <artifactId>flyway-maven-plugin</artifactId>
-                        <version>4.0.3</version>
+                        <version>${flyway-maven-plugin.version}</version>
                         <configuration>
                             <configFile>src/main/resources/properties/database.properties</configFile>
                         </configuration>
