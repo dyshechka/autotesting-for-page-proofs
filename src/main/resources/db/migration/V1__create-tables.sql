@@ -7,6 +7,8 @@ CREATE TABLE `user_roles` (
 
 CREATE TABLE `user_info` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `FIRST_NAME` varchar(255) NOT NULL,
+  `LAST_NAME` varchar(255) NOT NULL,
   `LOGIN` varchar(255) NOT NULL,
   `PASSWORD` varchar(255) NOT NULL,
   `ROLE_ID` bigint(20) NOT NULL,

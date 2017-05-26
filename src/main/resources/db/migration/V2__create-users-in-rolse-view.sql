@@ -5,4 +5,4 @@ CREATE VIEW users_in_roles AS
     TRUE        AS 'enabled',
     r.ROLE_CODE AS 'role'
   FROM `user_info` u
-    JOIN `user_roles` r USING (ID);
+    JOIN `user_roles` r ON u.ROLE_ID = r.ID;

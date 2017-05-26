@@ -1,5 +1,6 @@
 package ru.martha.autotesting.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.martha.autotesting.enums.RoleCode;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "USER_ROLES")
+@EqualsAndHashCode
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,11 @@ public class Role implements Serializable {
 
     @Transient
     private RoleCode roleCode;
+
+    public void setRoleCode(RoleCode roleCode) {
+        this.roleCode = roleCode;
+        this.code = roleCode.getCode();
+    }
 
     public RoleCode getRoleCode() {
         if (this.roleCode == null) {

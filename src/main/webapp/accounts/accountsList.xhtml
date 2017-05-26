@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Управление учетными записями</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel styleClass="no-padding no-border margin-bottom-15"
+                 style="text-align: right">
+            <p:link href="#{request.contextPath}/logout" value="Выйти"/>
+        </p:panel>
+        <p:layout>
+            <p:layoutUnit position="west" style="max-width: 15%;">
+                <p:panel styleClass="no-border" style="text-align: right">
+                    <p:commandButton value="Создать учетную запись"
+                                     action="#{adminController.createUser}"
+                                     update="@form"/>
+                </p:panel>
+                <p:dataTable value="#{adminController.users}"
+                             selectionMode="single"
+                             selection="#{adminController.selectedUser}"
+                             var="user"
+                             disabledSelection="#{adminController.newUser}"
+                             rowKey="#{user.id}">
+                    <p:ajax event="rowSelect" update="@form:content-pane" listener="#{adminController.onRowSelect}"/>
+                    <p:column headerText="Учетные записи">
+                        <h:outputText value="#{user.login}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <p:panel id="content-pane" styleClass="no-border no-padding">
+                    <p:panel rendered="#{adminController.selectedUser != null}" styleClass="no-border no-padding">
+                        <p:panel styleClass="no-border no-padding margin-bottom-15">
+                            <p:selectBooleanButton onLabel="Режим редактирования"
+                                                   offLabel="Режим редактирования"
+                                                   value="#{adminController.editMode}"
+                                                   rendered="#{!adminController.newUser}">
+                                <p:ajax update="user-form"/>
+                            </p:selectBooleanButton>
+                            <p:commandButton value="Удалить"
+                                             action="#{adminController.removeUser()}"
+                                             update="@form"
+                                             rendered="#{!adminController.newUser}">
+                                <p:confirm header="Удалить учетную запись пользователя"
+                                           message="Вы уверены, что хотите удалить учетную запись пользователя?"/>
+                            </p:commandButton>
+                            <p:commandButton value="Отмена"
+                                             action="#{adminController.cancelCreate()}"
+                                             immediate="true"
+                                             rendered="#{adminController.newUser}"
+                                             update="@form"/>
+                        </p:panel>
+                        <p:panel styleClass="no-border no-padding">
+                            <p:messages/>
+                        </p:panel>
+                        <p:panelGrid id="user-form" columns="2" styleClass="no-padding">
+                            <p:outputLabel value="Имя" for="user-first-name"/>
+                            <p:inputText id="user-first-name"
+                                         value="#{adminController.selectedUser.firstName}"
+                                         required="true"
+                                         readonly="#{!adminController.editMode}"/>
+                            <p:outputLabel value="Фамилия" for="user-last-name"/>
+                            <p:inputText id="user-last-name"
+                                         value="#{adminController.selectedUser.lastName}"
+                                         required="true"
+                                         readonly="#{!adminController.editMode}"/>
+                            <p:outputLabel value="Логин" for="user-login"/>
+                            <p:inputText id="user-login"
+                                         value="#{adminController.selectedUser.login}"
+                                         required="true"
+                                         readonly="#{!adminController.editMode}"/>
+                            <p:outputLabel value="Роль" for="user-role"/>
+                            <p:selectOneMenu id="user-role"
+                                             value="#{adminController.selectedUser.role}"
+                                             converter="#{adminController.roleConverter}"
+                                             disabled="#{!adminController.editMode}">
+                                <f:selectItems value="#{adminController.roles}" var="role" itemLabel="#{role.name}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Пароль"
+                                           for="user-password"
+                                           rendered="#{adminController.newUser}"/>
+                            <p:password id="user-password"
+                                        value="#{adminController.password}"
+                                        required="true"
+                                        rendered="#{adminController.newUser}"/>
+                            <p:outputLabel value="Повторите пароль"
+                                           for="user-password-repeat"
+                                           rendered="#{adminController.newUser}"/>
+                            <p:password id="user-password-repeat"
+                                        required="true"
+                                        value="#{adminController.repeatPassword}"
+                                        rendered="#{adminController.newUser}"/>
+                            <p:commandButton disabled="#{!adminController.editMode}" value="Сохранить"
+                                             action="#{adminController.saveUser()}" update="@form"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <h:outputText rendered="#{adminController.selectedUser == null}"
+                                  value="Выберите учетную запись или создайте новую"/>
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
+
+        <p:confirmDialog global="true">
+            <p:commandButton value="Да" type="button" styleClass="ui-confirmdialog-yes"/>
+            <p:commandButton value="Нет" type="button" styleClass="ui-confirmdialog-no"/>
+        </p:confirmDialog>
+    </h:form>
+</h:body>
+
+</html>

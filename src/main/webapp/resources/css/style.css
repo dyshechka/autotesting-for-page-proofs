@@ -1,3 +1,24 @@
 * {
-     outline: none !important;
- }
+    outline: none !important;
+}
+
+.ui-panelgrid > * > tr,
+.ui-panelgrid > * > tr > td {
+    border: none !important;
+}
+
+.no-border {
+    border: none;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-padding .ui-panel-content.ui-widget-content {
+    padding: 0 !important;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
