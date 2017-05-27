@@ -6,14 +6,86 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
->
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Список проектов</title>
+    <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 
 <h:body>
-    <p:outputLabel value="Здесь будет список проектов"/>
+    <h:form>
+        <p:panel styleClass="no-padding no-border margin-bottom-15"
+                 style="text-align: right">
+            <p:link href="#{request.contextPath}/logout" value="Выйти"/>
+        </p:panel>
+        <p:layout styleClass="page-layout">
+            <p:layoutUnit position="west" style="max-width: 15%;">
+                <p:panel styleClass="no-border no-padding margin-bottom-15" style="text-align: center;">
+                    <p:commandButton value="Создать новый проект"
+                                     update="@form"
+                                     action="#{projectsController.createProject()}"/>
+                </p:panel>
+                <p:dataTable value="#{projectsController.projects}"
+                             var="project"
+                             selection="#{projectsController.selectedProject}"
+                             selectionMode="single"
+                             disabledSelection="#{projectsController.newProject}"
+                             rowKey="#{project.id}"
+                             emptyMessage="Проектов не найдено">
+                    <p:ajax event="rowSelect" update="@form:content-pane"
+                            listener="#{projectsController.onProjectSelected}"/>
+                    <p:column headerText="Проекты">
+                        <h:outputText value="#{project.name}"/>
+                        <h:outputText value="#{project.creationDate}">
+                            <f:convertDateTime pattern=" (dd.MM.yyyy)"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <p:panel id="content-pane" styleClass="no-padding no-border">
+                    <p:panel rendered="#{projectsController.selectedProject != null}"
+                             styleClass="no-border no-padding">
+                        <p:panel styleClass="no-border no-padding margin-bottom-15">
+                            <p:selectBooleanButton onLabel="Режим редактирования"
+                                                   offLabel="Режим редактирования"
+                                                   value="#{projectsController.editMode}"
+                                                   rendered="#{!projectsController.newProject}">
+                                <p:ajax update="content-pane"/>
+                            </p:selectBooleanButton>
+                            <p:commandButton value="Удалить"
+                                             action="#{projectsController.removeProject()}"
+                                             update="@form"
+                                             rendered="#{!projectsController.newProject}">
+                                <p:confirm header="Удалить проект"
+                                           message="Вы уверены, что хотите удалить проект?"/>
+                            </p:commandButton>
+                            <p:commandButton value="Отмена"
+                                             action="#{projectsController.cancelCreateProject()}"
+                                             immediate="true"
+                                             rendered="#{projectsController.newProject}"
+                                             update="@form"/>
+                        </p:panel>
+                        <p:panelGrid columns="2" styleClass="no-padding no-border">
+                            <p:outputLabel value="Название проекта" for="project-name"/>
+                            <p:inputText id="project-name"
+                                         value="#{projectsController.selectedProject.name}"
+                                         readonly="#{!projectsController.editMode}"
+                                         required="true"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Сохранить"
+                                         update="@form"
+                                         action="#{projectsController.saveProject()}"/>
+                    </p:panel>
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
+        <p:confirmDialog global="true">
+            <p:commandButton value="Да" type="button" styleClass="ui-confirmdialog-yes"/>
+            <p:commandButton value="Нет" type="button" styleClass="ui-confirmdialog-no"/>
+        </p:confirmDialog>
+    </h:form>
 </h:body>
 
 </html>

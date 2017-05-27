@@ -2,6 +2,10 @@
     outline: none !important;
 }
 
+.page-layout {
+    min-height: 600px;
+}
+
 .ui-panelgrid > * > tr,
 .ui-panelgrid > * > tr > td {
     border: none !important;
